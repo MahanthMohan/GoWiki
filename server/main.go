@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 
@@ -118,5 +119,6 @@ func Router() *mux.Router {
 func main() {
 	r := Router()
 	fmt.Println("Server running on PORT 8080")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	port := os.Getenv("PORT")
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }

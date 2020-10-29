@@ -1,0 +1,12 @@
+Routes:
+
+Operations:
+
+1) Create an Article
+2) Read all articles
+3) Delete an Article
+
+Types of HTTP Requests:
+POST
+GET
+DELETE

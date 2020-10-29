@@ -1,0 +1,92 @@
+/* styles.css */
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-Regular.woff2') format('woff2'),
+      url('fonts/JetBrainsMono-Regular.woff') format('woff'),
+      url('fonts/JetBrainsMono-Regular.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.header {
+  color: #fff;
+  font-family: "JetBrains Mono";
+  font-weight: 300; /* The recommended font weight for mono */
+}
+
+.jumbotron {
+  background-image: url(images/bg.png);
+  background-repeat: no-repeat;
+}
+
+.article {
+  font-family: "JetBrains Mono";
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px #ccc;
+  padding: 10px;
+  width: 280px;
+  height: 240px;
+  margin: 25px;
+  float: left;
+}
+
+.article p {
+  font-family: "JetBrains Mono";
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.article button {
+  position: relative;
+  float: right;
+  margin-right: 10px;
+  color: #5503fc;
+  border: none;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  outline: none;
+}
+
+form.create-article {
+  position: relative;
+  width: 500px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+
+/* Material UI Icons */
+form.create-article input,
+form.create-article textarea {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  outline: none;
+  font-size: 1.2em;
+  font-family: "JetBrains Mono";
+}
+
+form.create-article button {
+  position: absolute;
+  right: 18px;
+  bottom: -18px;
+  background: #5503fc;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+}
+
+.rule {
+  background-color: #fff;
+  width: 35%;
+  height: 0.1px;
+  text-align: center;
+}

@@ -5,7 +5,7 @@ import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import Fab from '@material-ui/core/Fab';
 
-const endpoint = "http://localhost:8080";
+const endpoint = "https://gowiki-api.herokuapp.com/";
 
 // A function to render the Header of this webpage
 function Header() {

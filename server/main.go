@@ -19,9 +19,10 @@ import (
 
 // mongo model for the article struct
 type article struct {
-	ID    primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Title string             `json:"title,omitempty"`
-	Body  string             `json:"body,omitempty"`
+	ID     primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Title  string             `json:"title,omitempty"`
+	Body   string             `json:"body,omitempty"`
+	Author string             `json:"author,omitempty"`
 }
 
 // Global constants (Exception: credential field in databaseURI)
@@ -59,7 +60,6 @@ func init() {
 func createArticle(w http.ResponseWriter, r *http.Request) {
 	// All the headers for a post request
 	w.Header().Set("Context-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	var newArticle article
@@ -75,7 +75,6 @@ func createArticle(w http.ResponseWriter, r *http.Request) {
 // Read all the articles
 func getAllArticles(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	mongoCursor, err := collection.Find(context.Background(), bson.M{})
 	if err != nil {
 		log.Fatalln(err)
@@ -95,7 +94,6 @@ func getAllArticles(w http.ResponseWriter, r *http.Request) {
 // Delete an article
 func deleteArticle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	args := mux.Vars(r)
 	id, err := primitive.ObjectIDFromHex(args["id"])
 	if err != nil {

@@ -3,6 +3,7 @@ import axios from 'axios';
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
+import CardMedia from '@material-ui/core/CardMedia'
 import Fab from '@material-ui/core/Fab';
 
 const endpoint = "https://gowiki-api.herokuapp.com/";
@@ -37,6 +38,8 @@ function Article(props) {
         <div className="article">
             <h1>{props.title}</h1>
             <p className="lead">{props.body}</p>
+            <img src="{props.image}" alt="Article Image"></img>
+            <p className="lead">{props.author}</p>
             <button onClick={() => props.onDelete(props.id)}>
                 <DeleteOutlineRoundedIcon />
             </button>
@@ -48,6 +51,8 @@ function Article(props) {
 function CreateArea(props) {
     const [titleText, setTitleText] = useState("");
     const [bodyText, setBodyText] = useState("");
+    const [imageURI, setImageURI] = useState("");
+    const [authorName, setAuthorName] = useState("");
 
     return (
         <div>
@@ -64,6 +69,18 @@ function CreateArea(props) {
                     onChange={(event) => setBodyText(event.target.value)}
                     name="body"
                     placeholder="Type something here"
+                />
+                <textarea 
+                    value={imageURI}
+                    onChange={(event) => setImageURI(event.target.value)}
+                    name="imageURI"
+                    placeholder="Optional Image URL"
+                />
+                <textarea 
+                    value={authorName}
+                    onChange={(event) => setAuthorName(event.target.value)}
+                    name="authorName"
+                    placeholder="Author"
                 />
                 <Fab color="secondary" aria-label="add" onClick={(event) => {
                     props.onAdd({ title: titleText, body: bodyText });
@@ -111,6 +128,8 @@ return (
                 id={article._id}
                 title={article.title}
                 body={article.body}
+                image={article.image}
+                author={article.author}
                 onDelete={onDelete}
             />
         ))}

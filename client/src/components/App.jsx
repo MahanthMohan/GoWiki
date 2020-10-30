@@ -3,7 +3,6 @@ import axios from 'axios';
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import CardMedia from '@material-ui/core/CardMedia'
 import Fab from '@material-ui/core/Fab';
 
 const endpoint = "https://gowiki-api.herokuapp.com/";
@@ -37,9 +36,9 @@ function Article(props) {
     return (
         <div className="article">
             <h1>{props.title}</h1>
-            <p className="lead">{props.body}</p>
-            <img src="{props.image}" alt="Article Image"></img>
-            <p className="lead">{props.author}</p>
+            <p>{props.body}</p>
+            <img src={props.image} alt="" width="240" height="180"/>
+            <p>{props.author}</p>
             <button onClick={() => props.onDelete(props.id)}>
                 <DeleteOutlineRoundedIcon />
             </button>
@@ -63,24 +62,27 @@ function CreateArea(props) {
                     name="title"
                     placeholder="Title"
                     autoComplete="off"
+                    required
                 />
                 <textarea 
                     value={bodyText}
                     onChange={(event) => setBodyText(event.target.value)}
                     name="body"
                     placeholder="Type something here"
+                    required
                 />
                 <textarea 
                     value={imageURI}
                     onChange={(event) => setImageURI(event.target.value)}
-                    name="imageURI"
+                    name="image"
                     placeholder="Optional Image URL"
                 />
                 <textarea 
                     value={authorName}
                     onChange={(event) => setAuthorName(event.target.value)}
-                    name="authorName"
+                    name="author"
                     placeholder="Author"
+                    required
                 />
                 <Fab color="secondary" aria-label="add" onClick={(event) => {
                     props.onAdd({ title: titleText, body: bodyText });

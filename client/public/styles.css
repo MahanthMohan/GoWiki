@@ -36,14 +36,15 @@
 }
 
 .article h1 {
+  font-family: "JetBrains Mono";
   font-size: xx-large;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
 }
 
 .article p {
   font-family: "JetBrains Mono";
   font-size: 16px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   white-space: pre-wrap;
   /* Breaks the sentence into a separate line if space is not available */
   word-wrap: break-word;

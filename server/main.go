@@ -22,6 +22,7 @@ type article struct {
 	ID     primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	Title  string             `json:"title,omitempty"`
 	Body   string             `json:"body,omitempty"`
+	Image  string             `json:"image,omitempty"`
 	Author string             `json:"author,omitempty"`
 }
 

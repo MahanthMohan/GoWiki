@@ -97,12 +97,16 @@ func deleteArticle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	args := mux.Vars(r)
-	deleteResult, err := collection.DeleteOne(context.Background(), bson.M{"title": string(args["title"])})
+	id, err := primitive.ObjectIDFromHex(args["id"])
+	if err != nil {
+		log.Fatalln("Error parsing the _id of document")
+	}
+	deleteResult, err := collection.DeleteOne(context.Background(), bson.M{"_id": id})
 	if err != nil {
 		log.Fatalln(err)
 	}
 	log.Println(deleteResult)
-	json.NewEncoder(w).Encode(args["title"])
+	json.NewEncoder(w).Encode(args["id"])
 }
 
 // Router function to handle all http routes using a mux router
@@ -112,7 +116,7 @@ func Router() *mux.Router {
 
 	router.HandleFunc("/api/create", createArticle).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/read", getAllArticles).Methods("GET", "OPTIONS")
-	router.HandleFunc("/api/delete/{title}", deleteArticle).Methods("DELETE", "OPTIONS")
+	router.HandleFunc("/api/delete/{id}", deleteArticle).Methods("DELETE", "OPTIONS")
 	return router
 }
 

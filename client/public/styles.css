@@ -28,29 +28,34 @@
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 5px #ccc;
-  padding: 10px;
-  width: 280px;
-  height: 240px;
-  margin: 25px;
+  padding: 15px;
+  width: 260px;
+  height: max-content;
+  margin: 16px;
   float: left;
+}
+
+.article h1 {
+  font-size: xx-large;
+  margin-bottom: 8px;
 }
 
 .article p {
   font-family: "JetBrains Mono";
-  font-size: 1.1em;
+  font-size: 16px;
   margin-bottom: 10px;
   white-space: pre-wrap;
+  /* Breaks the sentence into a separate line if space is not available */
   word-wrap: break-word;
 }
 
 .article button {
   position: relative;
   float: right;
-  margin-right: 10px;
   color: #5503fc;
   border: none;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   cursor: pointer;
   outline: none;
 }

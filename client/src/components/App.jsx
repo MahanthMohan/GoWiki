@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
+import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import Fab from '@material-ui/core/Fab';
@@ -21,14 +21,24 @@ function Header() {
     );
 }
 
+// A function to render spaces between the create-area and the articles
+function Spacing() {
+    return (
+        <div className="spacing">
+            <br></br>
+            <br></br>
+        </div>
+    );
+}
+
 // Render the articles after they are created
 function Article(props) {
     return (
         <div className="article">
             <h1>{props.title}</h1>
             <p className="lead">{props.body}</p>
-            <button onClick={() => props.onDelete(props.title)}>
-                <DeleteOutlineIcon />
+            <button onClick={() => props.onDelete(props.id)}>
+                <DeleteOutlineRoundedIcon />
             </button>
         </div>
     );
@@ -79,8 +89,8 @@ function App() {
     }
 
     // A function to delete an article using a DELETE request
-    function onDelete(title) {
-        axios.delete(`${endpoint}/delete/${title}`)
+    function onDelete(id) {
+        axios.delete(`${endpoint}/api/delete/${id}`)
     }
 
     useEffect(() => {
@@ -92,7 +102,9 @@ function App() {
 return (
     <div>
         <Header />
+        <Spacing />
         <CreateArea onAdd={createArticle} />
+        <Spacing /><Spacing />
         {articles.map((article) => (
             <Article 
                 key={article._id}

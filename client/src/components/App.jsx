@@ -85,9 +85,11 @@ function CreateArea(props) {
                     required
                 />
                 <Fab color="secondary" aria-label="add" onClick={(event) => {
-                    props.onAdd({ title: titleText, body: bodyText });
+                    props.onAdd({ title: titleText, body: bodyText, image: imageURI, author: authorName });
                     setTitleText("");
                     setBodyText("");
+                    setImageURI("");
+                    setAuthorName("");
                     event.preventDefault();
                 }}>
                     <AddRoundedIcon />

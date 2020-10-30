@@ -61,6 +61,7 @@ func init() {
 func createArticle(w http.ResponseWriter, r *http.Request) {
 	// All the headers for a post request
 	w.Header().Set("Context-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	var newArticle article
@@ -76,6 +77,7 @@ func createArticle(w http.ResponseWriter, r *http.Request) {
 // Read all the articles
 func getAllArticles(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	mongoCursor, err := collection.Find(context.Background(), bson.M{})
 	if err != nil {
 		log.Fatalln(err)
@@ -95,6 +97,9 @@ func getAllArticles(w http.ResponseWriter, r *http.Request) {
 // Delete an article
 func deleteArticle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	args := mux.Vars(r)
 	id, err := primitive.ObjectIDFromHex(args["id"])
 	if err != nil {

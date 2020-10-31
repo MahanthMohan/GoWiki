@@ -1,5 +1,6 @@
 module example.com/gowiki
 
+// +heroku goVersion go	1.15
 go 1.15
 
 require (

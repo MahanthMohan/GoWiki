@@ -1,5 +1,5 @@
 ## Running the backend
-### `go mod init`
+## `go mod init`
 This will initialize a module if one does not exist
 ## `go mod vendor`
 This will get all the dependencies

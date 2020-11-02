@@ -37,7 +37,7 @@ function Article(props) {
         <div className="article">
             <h1>{props.title}</h1>
             <p>{props.body}</p>
-            <img src={props.image} alt="" width="240" height="180"/>
+            <img src={props.image} alt="" width="240" height="135"/>
             <p>{props.author}</p>
             <button onClick={() => props.onDelete(props.id)}>
                 <DeleteOutlineRoundedIcon />

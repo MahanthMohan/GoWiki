@@ -8,8 +8,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gorilla/mux"
+	"golang.org/x/time/rate"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -54,6 +56,21 @@ func init() {
 	// Assigns the value of the collection to var collection
 	collection = client.Database(myDatabase).Collection(myCollection)
 	log.Println("** Created a collection **")
+}
+
+//A limiter that has a ceiling of maximum of 25 requests per minute => 60/25 = 2.4 r/s
+// bucketSize = 3 requests -> queued
+var limiter = rate.NewLimiter(rate.Every(time.Second/2), 3)
+
+//A rate limit function to limit the number of requests per minute
+func rateLimit(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if limiter.Allow() == false {
+			http.Error(w, http.StatusText(429), http.StatusTooManyRequests)
+			return
+		}
+		h.ServeHTTP(w, r)
+	})
 }
 
 // Each http function has two input parameters a http.ResponseWriter and a Request, which is a struct object
@@ -131,5 +148,5 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-	log.Fatal(http.ListenAndServe(":"+port, r))
+	log.Fatal(http.ListenAndServe(":"+port, rateLimit(r)))
 }

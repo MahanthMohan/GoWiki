@@ -58,11 +58,11 @@ func init() {
 	log.Println("** Created a collection **")
 }
 
-//A limiter that has a ceiling of maximum of 25 requests per minute => 60/25 = 2.4 r/s
+// A limiter that has a ceiling of maximum of 60 requests per minute => 1 s/r
 // bucketSize = 3 requests -> queued
-var limiter = rate.NewLimiter(rate.Every(time.Second/2), 3)
+var limiter = rate.NewLimiter(rate.Every(time.Second), 3)
 
-//A rate limit function to limit the number of requests per minute
+// A rate limit function to limit the number of requests per minute
 func rateLimit(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if limiter.Allow() == false {

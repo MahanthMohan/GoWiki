@@ -1,18 +1,8 @@
 /* styles.css */
 
-@font-face {
-  font-family: 'JetBrains Mono';
-  src: url('fonts/JetBrainsMono-Regular.woff2') format('woff2'),
-      url('fonts/JetBrainsMono-Regular.woff') format('woff'),
-      url('fonts/JetBrainsMono-Regular.ttf') format('ttf');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 header {
   color: #fff;
-  font-family: "JetBrains Mono";
+  font-family: 'Poppins', 'sans-serif';
   font-weight: 300; /* The recommended font weight for mono */
 }
 
@@ -23,7 +13,7 @@ header {
 }
 
 .article {
-  font-family: "JetBrains Mono";
+  font-family: 'Poppins', 'sans-serif';
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 5px #ccc;
@@ -35,13 +25,13 @@ header {
 }
 
 .article h1 {
-  font-family: "JetBrains Mono";
+  font-family: 'Poppins', 'sans-serif';
   font-size: xx-large;
   margin-bottom: 15px;
 }
 
 .article p {
-  font-family: "JetBrains Mono";
+  font-family: 'Poppins', 'sans-serif';
   font-size: 17.6px;
   margin-bottom: 5px;
   white-space: pre-wrap;
@@ -79,7 +69,7 @@ form.create-article textarea {
   padding: 4px;
   outline: none;
   font-size: 17.6px;
-  font-family: "JetBrains Mono";
+  font-family: 'Poppins', 'sans-serif';
 }
 
 form.create-article button {

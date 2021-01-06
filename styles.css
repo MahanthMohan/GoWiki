@@ -1,0 +1,91 @@
+/* styles.css */
+
+header {
+  color: #fff;
+  font-family: 'Poppins', 'sans-serif';
+  font-weight: 300; /* The recommended font weight for mono */
+}
+
+.jumbotron {
+  background-image: url(images/bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.article {
+  font-family: 'Poppins', 'sans-serif';
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px #ccc;
+  padding: 15px;
+  width: 280px;
+  height: max-content;
+  margin: 16px;
+  float: left;
+}
+
+.article h1 {
+  font-family: 'Poppins', 'sans-serif';
+  font-size: xx-large;
+  margin-bottom: 15px;
+}
+
+.article p {
+  font-family: 'Poppins', 'sans-serif';
+  font-size: 17.6px;
+  margin-bottom: 5px;
+  white-space: pre-wrap;
+  /* Breaks the sentence into a separate line if space is not available */
+  word-wrap: break-word;
+}
+
+.article button {
+  position: relative;
+  float: right;
+  margin-right: 8px;
+  color: #5503fc;
+  border: none;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  outline: none;
+}
+
+form.create-article {
+  position: relative;
+  width: 500px;
+  margin: 30px auto 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+
+/* Material UI Icons */
+form.create-article input,
+form.create-article textarea {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  outline: none;
+  font-size: 17.6px;
+  font-family: 'Poppins', 'sans-serif';
+}
+
+form.create-article button {
+  position: absolute;
+  right: 18px;
+  bottom: -18px;
+  background: #5503fc;
+  /* Half of 100, as it is a semicircle */
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+}
+
+.rule {
+  background-color: #fff;
+  width: 35%;
+  height: 0.1px;
+  text-align: center;
+}

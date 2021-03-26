@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -21,11 +19,6 @@ type article struct {
 	Author string `json:"author,omitempty"`
 }
 
-const (
-	myDatabase   = "GoWiki"
-	myCollection = "Articles"
-)
-
 var (
 	databaseURI = "mongodb+srv://mahanth:" + os.Getenv("DB_SECRET") +
 		"@gowiki.ayckl.mongodb.net/GoWiki?retryWrites=true&w=majority"
@@ -36,32 +29,42 @@ func init() {
 	clientOptions := options.Client().ApplyURI(databaseURI)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-	log.Println("** Database connection successful **")
-	collection = client.Database(myDatabase).Collection(myCollection)
-	log.Println("** Created a collection **")
+	println("** Database connection successful **")
+	collection = client.Database("GoWiki").Collection("Articles")
+	println("** Created a collection **")
+}
+
+func routeHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		getAllArticles(w, r)
+	case "POST":
+		createArticle(w, r)
+	case "DELETE":
+		deleteArticle(w, r)
+	default:
+		http.Error(w, "Invalid HTTP Request", http.StatusMethodNotAllowed)
+	}
 }
 
 func createArticle(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	var newArticle article
 	_ = json.NewDecoder(r.Body).Decode(&newArticle)
-	insertResult, err := collection.InsertOne(context.Background(), newArticle)
+	_, err := collection.InsertOne(context.Background(), newArticle)
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
-	log.Println(insertResult)
 	w.WriteHeader(200)
 }
 
 func getAllArticles(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	mongoCursor, err := collection.Find(context.Background(), bson.M{})
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
 
 	var articles []article
@@ -75,22 +78,17 @@ func getAllArticles(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteArticle(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	title := strings.Split(r.URL.Path, "/")[3]
-	deleteResult, err := collection.DeleteOne(context.Background(), bson.M{"title": title})
+	_, err := collection.DeleteOne(context.Background(), bson.M{"title": strings.Split(r.URL.Path, "/")[1]})
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
-	log.Println(deleteResult)
 	w.WriteHeader(200)
 }
 
 func main() {
-	fmt.Println("Server running on PORT 8080")
-	http.HandleFunc("/api/create", createArticle)
-	http.HandleFunc("/api/read", getAllArticles)
-	http.HandleFunc("/api/delete/", deleteArticle)
+	println("Server running on PORT 8080")
+	http.HandleFunc("/", routeHandler)
 	port := os.Getenv("PORT")
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	panic(http.ListenAndServe(":"+port, nil))
 }

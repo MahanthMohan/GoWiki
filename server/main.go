@@ -36,21 +36,10 @@ func init() {
 	println("** Created a collection **")
 }
 
-func routeHandler(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "GET":
-		getAllArticles(w, r)
-	case "POST":
-		createArticle(w, r)
-	case "DELETE":
-		deleteArticle(w, r)
-	default:
-		http.Error(w, "Invalid HTTP Request", http.StatusMethodNotAllowed)
-	}
-}
-
 func createArticle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	var newArticle article
 	_ = json.NewDecoder(r.Body).Decode(&newArticle)
 	_, err := collection.InsertOne(context.Background(), newArticle)
@@ -62,6 +51,8 @@ func createArticle(w http.ResponseWriter, r *http.Request) {
 
 func getAllArticles(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	mongoCursor, err := collection.Find(context.Background(), bson.M{})
 	if err != nil {
 		panic(err)
@@ -79,7 +70,9 @@ func getAllArticles(w http.ResponseWriter, r *http.Request) {
 
 func deleteArticle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	_, err := collection.DeleteOne(context.Background(), bson.M{"title": strings.Split(r.URL.Path, "/")[1]})
+	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	_, err := collection.DeleteOne(context.Background(), bson.M{"title": strings.Split(r.URL.Path, "/")[3]})
 	if err != nil {
 		panic(err)
 	}
@@ -88,7 +81,12 @@ func deleteArticle(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	println("Server running on PORT 8080")
-	http.HandleFunc("/", routeHandler)
+	http.HandleFunc("/api/read", getAllArticles)
+	http.HandleFunc("/api/create", createArticle)
+	http.HandleFunc("/api/delete/", deleteArticle)
 	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 	panic(http.ListenAndServe(":"+port, nil))
 }

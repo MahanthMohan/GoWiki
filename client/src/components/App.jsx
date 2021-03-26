@@ -105,19 +105,19 @@ function App() {
 
     // A function to create an article using a POST request
     function createArticle(article) {
-        axios.post(endpoint + "/", article);
+        axios.post(endpoint + "/api/create", article);
         setArticles((prev) => [...prev, article]);
     }
 
     // A function to delete an article using a DELETE request
     function onDelete(title) {
-        axios.delete(`${endpoint}/${title}`).then(() => {
+        axios.delete(`${endpoint}/delete/${title}`).then(() => {
             setArticles((prev) => prev.filter((article) => article.title !== title));
         });
     }
 
     useEffect(() => {
-        axios.get(endpoint + "/").then((res) => {    
+        axios.get(endpoint + "/api/read").then((res) => {    
             setArticles(res.data);
         });
     }, []);

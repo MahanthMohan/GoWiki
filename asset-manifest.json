@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/GoWiki/static/js/main.52db792b.chunk.js",
-    "main.js.map": "/GoWiki/static/js/main.52db792b.chunk.js.map",
+    "main.js": "/GoWiki/static/js/main.da850ce5.chunk.js",
+    "main.js.map": "/GoWiki/static/js/main.da850ce5.chunk.js.map",
     "runtime-main.js": "/GoWiki/static/js/runtime-main.fd1ee88a.js",
     "runtime-main.js.map": "/GoWiki/static/js/runtime-main.fd1ee88a.js.map",
     "static/js/2.da565778.chunk.js": "/GoWiki/static/js/2.da565778.chunk.js",
@@ -12,6 +12,6 @@
   "entrypoints": [
     "static/js/runtime-main.fd1ee88a.js",
     "static/js/2.da565778.chunk.js",
-    "static/js/main.52db792b.chunk.js"
+    "static/js/main.da850ce5.chunk.js"
   ]
 }

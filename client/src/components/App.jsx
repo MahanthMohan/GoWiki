@@ -111,7 +111,7 @@ function App() {
 
     // A function to delete an article using a DELETE request
     function onDelete(title) {
-        axios.delete(`${endpoint}/delete/${title}`).then(() => {
+        axios.delete(`${endpoint}/api/delete/${title}`).then(() => {
             setArticles((prev) => prev.filter((article) => article.title !== title));
         });
     }

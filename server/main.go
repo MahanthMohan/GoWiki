@@ -28,37 +28,32 @@ var (
 func init() {
 	clientOptions := options.Client().ApplyURI(databaseURI)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
-	if err != nil {
-		panic(err)
-	}
+	HandleError(err)
 	println("** Database connection successful **")
 	collection = client.Database("GoWiki").Collection("Articles")
 	println("** Created a collection **")
 }
 
-func createArticle(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	var newArticle article
-	_ = json.NewDecoder(r.Body).Decode(&newArticle)
-	_, err := collection.InsertOne(context.Background(), newArticle)
+func HandleError(err error) {
 	if err != nil {
 		panic(err)
 	}
-	w.WriteHeader(200)
+}
+
+func createArticle(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	var newArticle article
+	json.NewDecoder(r.Body).Decode(&newArticle)
+	_, err := collection.InsertOne(context.Background(), newArticle)
+	HandleError(err)
 }
 
 func getAllArticles(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	mongoCursor, err := collection.Find(context.Background(), bson.M{})
-	if err != nil {
-		panic(err)
-	}
+	HandleError(err)
 
 	var articles []article
 	for mongoCursor.Next(context.Background()) {
@@ -72,14 +67,9 @@ func getAllArticles(w http.ResponseWriter, r *http.Request) {
 
 func deleteArticle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "DELETE, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
 	_, err := collection.DeleteOne(context.Background(), bson.M{"title": strings.Split(r.URL.Path, "/")[3]})
-	if err != nil {
-		panic(err)
-	}
-	w.WriteHeader(200)
+	HandleError(err)
 }
 
 func main() {
@@ -88,8 +78,5 @@ func main() {
 	http.HandleFunc("/api/create", createArticle)
 	http.HandleFunc("/api/delete/", deleteArticle)
 	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
 	panic(http.ListenAndServe(":"+port, nil))
 }

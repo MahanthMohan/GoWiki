@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
@@ -28,13 +29,13 @@ var (
 func init() {
 	clientOptions := options.Client().ApplyURI(databaseURI)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
-	HandleError(err)
+	handle(err)
 	println("** Database connection successful **")
 	collection = client.Database("GoWiki").Collection("Articles")
 	println("** Created a collection **")
 }
 
-func HandleError(err error) {
+func handle(err error) {
 	if err != nil {
 		panic(err)
 	}
@@ -44,32 +45,38 @@ func createArticle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	var newArticle article
-	json.NewDecoder(r.Body).Decode(&newArticle)
-	_, err := collection.InsertOne(context.Background(), newArticle)
-	HandleError(err)
+	body, err := ioutil.ReadAll(r.Body)
+	handle(err)
+	err = json.Unmarshal(body, &newArticle)
+	handle(err)
+	_, err = collection.InsertOne(context.Background(), newArticle)
+	handle(err)
 }
 
 func getAllArticles(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	mongoCursor, err := collection.Find(context.Background(), bson.M{})
-	HandleError(err)
+	handle(err)
 
 	var articles []article
 	for mongoCursor.Next(context.Background()) {
 		var document article
-		mongoCursor.Decode(&document)
+		err := mongoCursor.Decode(&document)
+		handle(err)
 		articles = append(articles, document)
 	}
-	mongoCursor.Close(context.Background())
-	json.NewEncoder(w).Encode(articles)
+	err = mongoCursor.Close(context.Background())
+	handle(err)
+	err = json.NewEncoder(w).Encode(articles)
+	handle(err)
 }
 
 func deleteArticle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
 	_, err := collection.DeleteOne(context.Background(), bson.M{"title": strings.Split(r.URL.Path, "/")[3]})
-	HandleError(err)
+	handle(err)
 }
 
 func main() {

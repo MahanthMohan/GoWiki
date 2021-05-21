@@ -44,6 +44,8 @@ func handle(err error) {
 func createArticle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 	var newArticle article
 	body, err := ioutil.ReadAll(r.Body)
 	handle(err)
@@ -75,6 +77,7 @@ func getAllArticles(w http.ResponseWriter, r *http.Request) {
 func deleteArticle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
+	w.Header().Set("Content-Type", "application/json")
 	_, err := collection.DeleteOne(context.Background(), bson.M{"title": strings.Split(r.URL.Path, "/")[3]})
 	handle(err)
 }
